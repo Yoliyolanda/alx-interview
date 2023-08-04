@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """
-N queens: The N Queens puzzle is the challenge of placing
-N non-attacking queens on an N×N chessboard.
+The N queens puzzle is a program that solves the N queens problem.
 """
 import sys
 
