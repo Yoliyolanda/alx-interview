@@ -1,67 +1,54 @@
 #!/usr/bin/python3
 """
-The N queens puzzle is a program that solves the N queens problem.
+N queens: The N Queens puzzle is the challenge of placing
+N non-attacking queens on an N×N chessboard.
 """
-from sys import argv, exit
+import sys
 
 
-def solveNQueens(n):
-    """Program that places N non-attacking queens on an NxN chessboard"""
-    res = []
-    queens = [-1] * n
-    # index represents row no and value represents col no
+def is_safe(board, row, col):
+    # Check if there is a queen in the same column
+    for i in range(row):
+        if board[i] == col or \
+           board[i] - col == i - row or \
+           board[i] - col == row - i:
+            return False
+    return True
 
-    def fs(index):
-        """Recursively resolves the N queens problem"""
-        if index == len(queens):  # n queens have been placed correctly
-            res.append(queens[:])
-            return  # backtracking
-        for i in range(len(queens)):
-            queens[index] = i
-            if valid(index):  # pruning
-                fs(index + 1)
 
-    # check whether nth queens can be placed
-    def valid(n):
-        """Method that checks if a position in the board is valid"""
-        for i in range(n):
-            if abs(queens[i] - queens[n]) == n - i:  # same diagonal
-                return False
-            if queens[i] == queens[n]:  # same column
-                return False
-        return True
+def solve_nqueens(N):
+    # Check if N is less than 4, which is not allowed for the N Queens problem
+    if N < 4:
+        print("N must be at least 4")
+        sys.exit(1)
 
-    def make_all_boards(res):
-        """Method that builts the List that be returned"""
-        actual_boards = []
-        for queens in res:
-            board = []
-            for row, col in enumerate(queens):
-                board.append([row, col])
-            actual_boards.append(board)
-        return actual_boards
+    def place_queens(board, row):
+        if row == N:
+            # All queens have been successfully placed, print the solution
+            print([[i, board[i]] for i in range(N)])
+        else:
+            # Try placing a queen in each column of the current row
+            for col in range(N):
+                if is_safe(board, row, col):
+                    # Queen can be placed at (row, col), update
+                    # the board and move to the next row
+                    board[row] = col
+                    place_queens(board, row + 1)
 
-    fs(0)
-    return make_all_boards(res)
+    # Initialize the board as a list of -1 (no queen placed yet)
+    board = [-1] * N
+    place_queens(board, 0)
 
 
 if __name__ == "__main__":
-    if len(argv) < 2:
-        print('Usage: nqueens N')
-        exit(1)
+    if len(sys.argv) != 2:
+        print("Usage: nqueens N")
+        sys.exit(1)
+
     try:
-        n = int(argv[1])
+        N = int(sys.argv[1])
     except ValueError:
-        print('N must be a number')
-        exit(1)
+        print("N must be a number")
+        sys.exit(1)
 
-    if n < 4:
-        print('N must be at least 4')
-        exit(1)
-    else:
-        result = solveNQueens(n)
-        for row in result:
-            print(row)
-
-    
-
+    solve_nqueens(N)
