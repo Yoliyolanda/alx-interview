@@ -1,8 +1,8 @@
 # 0x0F-starwars_api
 
-This interview algorithm project utilizes the Star Wars API: https://swapi-api.hbtn.io/
+This interview algorithm project utilizes the Star Wars API:
 
-[Star Wars Characters API](https://swapi-api.alx-tools.com/)
+
 
 ** Write a script that prints all characters of a Star Wars movie using the Star Wars API and request module:
 
